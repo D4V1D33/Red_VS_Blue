@@ -22,6 +22,8 @@ export interface GameAction {
   payload?: any
 }
 
+import type { UltimateTicTacToeState } from './ultimate-tic-tac-toe'
+
 // 房间类型
 export interface Room {
   id: string
@@ -30,11 +32,14 @@ export interface Room {
   players: Player[]
   currentTurnIndex: number
   battleState?: BattleState
+  ultimateTicTacToeState?: UltimateTicTacToeState
   actions: GameAction[]
   maxPlayers?: number
   hostId?: string
   mapId?: string
+  gameType?: 'default' | 'ultimate-tic-tac-toe'
   createdAt?: number
+  updatedAt?: number
   visibility?: "private" | "public"
 }
 

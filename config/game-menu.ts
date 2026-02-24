@@ -9,6 +9,7 @@ import {
   Map,
   Dumbbell,
   Wrench,
+  Grid,
   type LucideIcon,
 } from "lucide-react"
 
@@ -55,6 +56,15 @@ export const MENU_ITEMS: MenuItem[] = [
     description: "测试技能和棋子功能",
     icon: Dumbbell,
     href: "/training",
+    variant: "primary",
+    enabled: true,
+  },
+  {
+    id: "ultimate-tic-tac-toe",
+    label: "九井棋",
+    description: "Ultimate Tic Tac Toe 游戏",
+    icon: Grid,
+    href: "/ultimate-tic-tac-toe",
     variant: "primary",
     enabled: true,
   },

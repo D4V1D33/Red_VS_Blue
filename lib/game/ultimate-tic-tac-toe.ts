@@ -339,3 +339,61 @@ export function getAvailablePositions(
 
   return available
 }
+
+// 悔棋函数
+export function undoMove(state: UltimateTicTacToeState): UltimateTicTacToeState | null {
+  // 检查是否有移动历史
+  if (!state.moveHistory || state.moveHistory.length === 0) {
+    return null
+  }
+
+  // 创建新的游戏状态
+  const newState = JSON.parse(JSON.stringify(state))
+  
+  // 移除最后一次移动
+  const lastMove = newState.moveHistory.pop()
+  
+  if (!lastMove) {
+    return null
+  }
+
+  // 恢复到上一个状态
+  // 由于我们使用深拷贝，直接移除最后一步并重新计算状态
+  
+  // 清空当前棋盘
+  const resetBigBoard: BigBoardState = []
+  for (let y = 0; y < 3; y++) {
+    const row: BoardState[] = []
+    for (let x = 0; x < 3; x++) {
+      const subBoard: CellState[][] = []
+      for (let boardY = 0; boardY < 3; boardY++) {
+        const subRow: CellState[] = []
+        for (let boardX = 0; boardX < 3; boardX++) {
+          subRow.push(null)
+        }
+        subBoard.push(subRow)
+      }
+      row.push(subBoard)
+    }
+    resetBigBoard.push(row)
+  }
+
+  // 重新应用所有移动，除了最后一个
+  let currentState: UltimateTicTacToeState = {
+    bigBoard: resetBigBoard,
+    nextPlayer: 'X',
+    nextSubBoard: null,
+    winner: null,
+    winningLine: null,
+    moveHistory: []
+  }
+
+  for (const move of newState.moveHistory) {
+    const result = makeMove(currentState, move)
+    if (result) {
+      currentState = result
+    }
+  }
+
+  return currentState
+}
